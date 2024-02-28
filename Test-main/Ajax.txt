@@ -1,0 +1,25 @@
+<script>
+    function getRecords() {
+        var cityName = document.getElementById("cityName").value;
+        $.ajax({
+            url: "/records",
+            type: "GET",
+            data: {
+                cityName: cityName
+            },
+            success: function (response) {
+                var recordsDiv = $("#records");
+                recordsDiv.empty();
+                response.forEach(function (record) {
+                    recordsDiv.append("<p>" + record.cityName + "</p>");
+                });
+            },
+            error: function (xhr, status, error) {
+                alert("Error: " + error);
+            }
+        });
+    }
+</script>
+
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

@@ -1,0 +1,38 @@
+Difference b/w Query and TypedQuery when both are required to used?
+Query Interface:
+
+    The Query interface is a more general-purpose interface.
+    It allows you to create and execute dynamic queries using a query string.
+    The results obtained from a Query need to be cast manually to the appropriate type.
+
+Example:
+
+java
+
+Query query = entityManager.createQuery("SELECT e FROM Employee e WHERE e.department = :department");
+query.setParameter("department", someDepartment);
+List resultList = query.getResultList();
+
+TypedQuery Interface:
+
+    The TypedQuery interface is a subinterface of Query.
+    It is a generic interface, meaning you can specify the type of the result 
+    that is expected from the query, and it provides better type safety.
+    The results obtained from a TypedQuery do not require explicit casting.
+
+Example:
+
+java
+
+    TypedQuery<Employee> typedQuery = entityManager.createQuery("SELECT e FROM Employee e WHERE e.department = :department", Employee.class);
+    typedQuery.setParameter("department", someDepartment);
+    List<Employee> resultList = typedQuery.getResultList();
+
+When to use each:
+
+    Use Query when dealing with queries that may return different types of entities or projections.
+    Use TypedQuery when you know the specific type of result you expect, as it provides better compile-time type safety.
+
+In summary, TypedQuery is preferred when you know the expected result type at compile time, 
+and it helps catch type-related errors during compilation. Query provides more flexibility but 
+may require explicit casting when dealing with results. Depending on the situation, you may use both in your application as needed.

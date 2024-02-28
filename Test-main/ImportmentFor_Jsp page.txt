@@ -1,0 +1,93 @@
+<head>
+    <title>Your JSP Page</title>
+
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" type="text/css" href="path/to/styles.css">
+
+    <!-- Other head elements go here -->
+
+<!-- Link to external JavaScript file -->
+    <script type="text/javascript" src="path/to/script.js"></script>
+
+</head>
+
+
+/*************************Retrieve data from Database*******************************
+ <%
+       EntityManagerFactory factory = Persistence.createEntityManagerFactory("dev");
+       EntityManager manager = factory.createEntityManager();
+       EntityTransaction transaction = manager.getTransaction();
+       transaction.begin();
+       
+       String jpql = "SELECT e FROM Registration e";
+       TypedQuery<Registration> query = manager.createQuery(jpql, Registration.class);
+		//query.setParameter("value", "desiredValue");
+		List<Registration> resultList = query.getResultList();
+       transaction.commit();  
+   %>
+
+    <table>
+        <tr><td>Id</td><td>Name</td><td>Gender</td><td>Stream</td><td>Roll No.</td></tr>
+        <% for(int i = 0; i<resultList.size() ; i++) {%>
+        
+        <tr>
+        
+             <td><%=resultList.get(i).getId() %></td>
+             <td><%=resultList.get(i).getName() %></td>
+             <td><%=resultList.get(i).getGender() %></td>
+             <td><%=resultList.get(i).getStream() %></td>
+             <td><%=resultList.get(i).getRoll() %></td>
+        
+        </tr>
+        
+        <%} %>
+    </table>
+
+*********************JavaScription Operation********************************
+
+<br>
+
+<button onclick="redirectToAnotherPage()">Go to Another Page</button>
+
+<button onclick="RegistrationList()">List of Registration</button>
+
+<br>
+
+<p>====================================================================</p><br>
+
+<input type="text" id="number1"> <br>
+<input type="text" id="number2"> <br>
+<p id="printSum">
+<button onclick="sum()">SUM</button>
+<p>====================================================================</p><br>
+
+<script type="text/javascript"> 
+
+    alert("Welcome to index page");
+    
+    function redirectToAnotherPage() {
+        // Change the URL to the desired page
+        window.location.href = "Home.jsp";
+    }
+    
+    function RegistrationList()
+    {
+    	window.location.href = "RegistrationList.jsp";
+    }
+    
+    function sum()
+    {
+    	 // JavaScript logic to add two numbers
+        var num1 = parseFloat(document.getElementById("number1").value);
+        var num2 = parseFloat(document.getElementById("number2").value);
+
+        if (!isNaN(num1) && !isNaN(num2)) {
+            var sum = num1 + num2;
+            document.getElementById("printSum").innerText = "Result: " + sum;
+        } else {
+            document.getElementById("printSum").innerText = "Invalid input. Please enter valid numbers.";
+        }	
+    }
+
+</script>
+

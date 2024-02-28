@@ -1,0 +1,42 @@
+Difference CreateQuery vs CreateNativeQuery (Query)
+createQuery:
+
+    This method is used for creating JPQL (Java Persistence Query Language) queries.
+    JPQL is a query language that is similar to SQL but operates on Java objects rather than database tables.
+    JPQL queries reference entities and their fields rather than database tables and columns directly.
+
+Example:
+
+java
+
+Query query = entityManager.createQuery("SELECT e FROM Employee e WHERE e.department = :department");
+query.setParameter("department", someDepartment);
+List resultList = query.getResultList();
+
+createNativeQuery:
+
+    This method is used for creating native SQL queries.
+    Native SQL queries are written in the native query language of the underlying database (e.g., SQL for relational databases).
+    These queries can reference database tables and columns directly.
+
+Example:
+
+java
+
+    Query nativeQuery = entityManager.createNativeQuery("SELECT * FROM employee WHERE department_id = :departmentId", Employee.class);
+    nativeQuery.setParameter("departmentId", someDepartmentId);
+    List<Employee> resultList = nativeQuery.getResultList();
+
+Key Differences:
+
+    createQuery is for JPQL queries, which operate on entities and their relationships.
+    createNativeQuery is for native SQL queries, which operate on database tables and columns directly.
+    JPQL queries are portable across different databases since they operate on the entity model defined by JPA.
+    Native SQL queries may be database-specific and are written in the syntax of the underlying database.
+
+When to use each:
+
+    Use createQuery when working with JPQL queries and you want to operate on JPA entities.
+    Use createNativeQuery when you need to execute native SQL queries and want to work directly with database tables and columns.
+
+It's important to note that while JPQL provides a level of abstraction and portability, native queries might be necessary in situations where the complexity or specificity of the query requires direct SQL interactions with the database. However, native queries should be used cautiously to avoid potential issues with database portability.

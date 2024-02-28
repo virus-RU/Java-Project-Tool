@@ -1,0 +1,32 @@
+package org.ranchi.com.Operation;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+import org.ranchi.com.Pojo.Registration;
+
+public class SaveRegistrationDetails {
+
+	public static void main(String[] args) {
+		
+		Registration rs = new Registration();
+		rs.setName("Umashankar Kumar");
+		rs.setRoll("1");
+		rs.setStream("Computer");
+		rs.setGender("male");
+		
+		
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("dev");
+		EntityManager manager = factory.createEntityManager();
+		EntityTransaction transaction = manager.getTransaction();
+		transaction.begin();
+		manager.persist(rs);
+		transaction.commit();
+		
+		System.out.println("Added Successfully!");
+		
+	}
+
+}

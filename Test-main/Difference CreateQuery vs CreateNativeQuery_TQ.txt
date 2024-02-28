@@ -1,0 +1,40 @@
+Difference CreateQuery vs CreateNativeQuery
+in TypedQuery
+createQuery Method with TypedQuery:
+
+    createQuery is used for creating JPQL (Java Persistence Query Language) queries with TypedQuery.
+    JPQL is a query language that operates on entities and is not tied to the underlying database schema. It is a portable query language across different JPA providers.
+
+Example:
+
+java
+
+TypedQuery<Employee> typedQuery = entityManager.createQuery("SELECT e FROM Employee e WHERE e.department = :department", Employee.class);
+typedQuery.setParameter("department", someDepartment);
+List<Employee> resultList = typedQuery.getResultList();
+
+createNativeQuery Method with TypedQuery:
+
+    createNativeQuery is used for creating native SQL queries with TypedQuery.
+    Native queries are written in the native SQL dialect of the underlying database. This method allows you to execute database-specific SQL queries and still use the TypedQuery interface.
+
+Example:
+
+java
+
+    TypedQuery<Employee> typedNativeQuery = entityManager.createNativeQuery("SELECT * FROM employees WHERE department_id = :departmentId", Employee.class);
+    typedNativeQuery.setParameter("departmentId", someDepartmentId);
+    List<Employee> resultList = typedNativeQuery.getResultList();
+
+Key Points:
+
+    Both createQuery and createNativeQuery can be used with the TypedQuery interface, allowing you to specify the expected result type and obtain type-safe results.
+    createQuery with TypedQuery is used for JPQL, which is portable across different JPA providers.
+    createNativeQuery with TypedQuery is used for native SQL queries, providing flexibility for database-specific operations.
+
+Considerations:
+
+    Use createQuery with TypedQuery when working with JPQL and entities, promoting portability across different JPA providers.
+    Use createNativeQuery with TypedQuery when you need to execute native SQL queries and still want to work with the TypedQuery interface. This is useful when you need to leverage database-specific features or optimizations.
+
+In summary, the choice between createQuery and createNativeQuery with TypedQuery depends on whether you are working with JPQL or native SQL and the specific requirements of your application, while still maintaining type safety.

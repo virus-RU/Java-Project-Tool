@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Information</title>
+</head>
+<body>
+
+<h2>Image Information</h2>
+
+<input type="file" id="imageInput" accept="image/*" onchange="displayImageInfo()">
+
+<div id="imageInfo"></div>
+
+<script>
+    function displayImageInfo() {
+        var input = document.getElementById('imageInput');
+        var file = input.files[0];
+
+        if (file) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var image = new Image();
+                image.src = e.target.result;
+
+                image.onload = function () {
+                    var imageInfo = document.getElementById('imageInfo');
+                    imageInfo.innerHTML = `
+                        <strong>Filename:</strong> ${file.name}<br>
+                        <strong>File size:</strong> ${formatBytes(file.size)}<br>
+                        <strong>File type:</strong> ${file.type}<br>
+                        <strong>Width:</strong> ${image.width} pixels<br>
+                        <strong>Height:</strong> ${image.height} pixels<br>
+                        <strong>Created date:</strong> ${formatDate(file.lastModified)}
+                    `;
+                };
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function formatBytes(bytes) {
+        var kb = bytes / 1024;
+        return kb < 1024 ? kb.toFixed(2) + ' KB' : (kb / 1024).toFixed(2) + ' MB';
+    }
+
+    function formatDate(timestamp) {
+        var date = new Date(timestamp);
+        return date.toLocaleString();
+    }
+</script>
+
+</body>
+</html>

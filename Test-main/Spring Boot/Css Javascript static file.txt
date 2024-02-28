@@ -1,0 +1,174 @@
+If your styles.css is inside a css folder,
+ which is itself inside the static folder, 
+and the images are in a folder named images inside the static folder,
+ you would adjust the path accordingly.
+
+project
+│   index.html
+│
+└───static
+    └───css
+    │   │   styles.css
+    │
+    └───images
+        │   bg.jpg
+
+
+Your CSS code in styles.css should be:
+background-image: url("../images/bg.jpg");
+
+------------------------------------------------
+
+implments inside the html file.
+  
+     <link rel="stylesheet" href="/css/dashboard.css">
+    
+    
+    <!-- Include external JavaScript file -->
+    <!-- <script th:src="@{./Demoscript.js}" ></script>-->
+  
+     <script src="/JavaScript/dashboard.js" ></script>
+
+the above code are use for extrnal source file link.
+
+
+*********************************************
+<!-- Include the header fragment -->
+    <div th:replace="Fragment/ExampleFragment :: page1"></div>
+
+***********Difference between javascript and Thymeleaf*****************
+JavaScript is a programming language commonly used for creating dynamic content on web pages. 
+Thymeleaf, on the other hand, is a server-side Java template engine used for building dynamic web applications. 
+They serve different purposes in web development, and they are not directly comparable.
+
+    JavaScript:
+        Purpose: JavaScript is a scripting language used for client-side scripting, 
+        meaning it runs in the user's web browser.
+        It enables developers to manipulate the Document Object Model (DOM) of a webpage, 
+        handle user interactions, and perform asynchronous requests to the server.
+        Execution: Executed in the user's browser.
+        Usage: Typically used for enhancing the interactivity and responsiveness of web pages.
+
+    Thymeleaf:
+        Purpose: Thymeleaf is a server-side template engine designed for Java-based web applications. 
+        It allows developers to create dynamic HTML pages on the server side, 
+        and the generated HTML is sent to the client's browser.
+        Execution: Executed on the server side, and the generated HTML is sent to the client.
+        Usage: Used for building dynamic views in Java-based web applications,
+        often integrated with Spring Framework.
+
+
+****************************Load a fragment by click a buton**************************************
+To achieve the functionality of clicking an HTML button using JavaScript and having Thymeleaf replace a fragment,
+ you'll need to understand that Thymeleaf operates on the server side, and JavaScript operates on the client side. 
+The communication between them typically involves making an asynchronous request to the server.
+
+Here's a general example of how you might approach this:
+
+    HTML with Thymeleaf:
+    Assume you have a Thymeleaf template with a fragment that you want to replace:
+
+    html
+
+<div id="fragmentContainer" th:fragment="myFragment">
+    <!-- Your fragment content goes here -->
+</div>
+
+JavaScript:
+Write a JavaScript function that gets triggered when the button is clicked.
+ This function can use AJAX to make an asynchronous request to the server,
+ and the server (implemented with Thymeleaf) will send back the updated fragment.
+
+html
+
+<button onclick="loadFragment()">Click me</button>
+
+<script>
+    function loadFragment() {
+        // Use AJAX to make a request to the server
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/path/to/your/endpoint', true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Update the content of the fragmentContainer with the response
+                document.getElementById('fragmentContainer').innerHTML = xhr.responseText;
+            }
+        };
+
+        xhr.send();
+    }
+</script>
+
+Thymeleaf Controller:
+In your server-side code (Spring Boot or any other backend), 
+you need to handle the request and return the updated fragment.
+This is just a basic example; you may need to adapt it based on your server-side technology.
+
+java
+
+    @Controller
+    public class MyController {
+        @GetMapping("/path/to/your/endpoint")
+        public String getUpdatedFragment(Model model) {
+            // Add data to the model if needed
+            // ...
+
+            // Return the name of the Thymeleaf fragment
+            return "fragments/myFragment :: myFragment";
+        }
+
+          -------if it is not working---------------
+           @GetMapping("/callExFragment")
+           public ModelAndView LoadFragment()
+          {
+
+              	ModelAndView modelAndView = new ModelAndView("Fragment/ExampleFragment :: page1");
+               // Return the name of the Thymeleaf fragment
+               return modelAndView;
+           }
+               
+    }
+
+In this example, when the button is clicked, the loadFragment JavaScript function sends an AJAX request to the server. 
+The server responds with the updated fragment, and the JavaScript updates the content of the fragmentContainer with the new fragment content.
+
+Remember to adjust the paths and endpoint names based on your project structure and requirements. 
+This is a basic example, and depending on your specific use case, you may need to handle more details, 
+such as passing data between the client and the server.
+
+
+Here, above the code 
+1. @GetMapping("/callExFragment")  this server request.
+2. Fragment/ExampleFragment----
+   *Fragment--> it is a folder.
+   *ExampleFragment --> it is html file such as ExampleFragment.html
+   *page1 -->it div container thymeleaf fragment name of div style.
+
+
+
+
+
+****************what is difference between Model and ModelAndView******************************
+Model:
+
+    Model is an interface in Spring that represents a holder for model attributes.
+
+    It is used to pass data from a controller to a view.
+
+    When a controller method returns a String (representing the view name) and takes a Model parameter, 
+    Spring automatically provides an instance of Model.
+
+    The controller can add attributes to the Model using methods like addAttribute(key, value).
+
+
+ModelAndView:
+
+    ModelAndView is a class in Spring that combines both model data and view information.
+
+    It allows you to specify the view name along with model attributes in a single object.
+
+    When a controller method returns a ModelAndView object,
+    it provides more flexibility in specifying the view name, 
+    using a different view resolver, and directly manipulating the model.
+

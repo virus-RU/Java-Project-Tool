@@ -1,0 +1,251 @@
+TypedQuery is not used with Update and Remove clause.
+
+*JPA Query for Retrieve data from Database
+  
+   
+-----------Retrieve data With Where Clause--------------
+
+String qry = "SELECT st FROM YourClasss st WHERE st.propertyName = :propertyValue";
+
+TypedQuery<YourClass> query = manager.createQuery(qry, YourClass.class);
+
+// Set parameter values
+query.setParameter("propertyValue", propertyValue);
+
+List<YourClass> resultList = query.getResultList();
+
+---------Retrieve data With Select Clause--------------
+
+String qry= "SELECT entity FROM YourEntityClass entity";
+
+TypedQuery<YourClass> query = entityManager.createQuery(jpqlQuery, YourClass.class);
+
+List<YourClass> resultList = query.getResultList();
+
+---------Delete data from the database--------------------
+
+String jpqlQuery = "DELETE FROM YourClass entity WHERE entity.propertyName = :propertyValue";
+
+EntityTransaction transaction = entityManager.getTransaction();
+transaction.begin();
+
+Query query = entityManager.createQuery(jpqlQuery);
+query.setParameter("propertyValue", propertyValue);
+
+int deletedCount = query.executeUpdate();
+
+transaction.commit();
+
+System.out.println("Number of records deleted: " + deletedCount);
+
+
+------------Insert Jpa Query to insert some data in database----------------
+entityManager.createQuery("INSERT INTO YourEntityClass(field1, field2) VALUES (:value1, :value2)")
+                    .setParameter("value1", entity.getField1())
+                    .setParameter("value2", entity.getField2())
+                    .executeUpdate();
+
+ 		*************************************************
+
+int rowsAffected = entityManager.createQuery("INSERT INTO YourEntityClass(field1, field2) VALUES (:value1, :value2)")
+    .setParameter("value1", entity.getField1())
+    .setParameter("value2", entity.getField2())
+    .executeUpdate();
+
+System.out.println("Number of rows inserted: " + rowsAffected);
+
+               **************************************************
+String qry = "INSERT INTO Admin(username, password) VALUES( ?, ?)";
+		  Query query = manager.createNativeQuery(qry);
+		  query.setParameter(1,"abc@gmail.com"); 
+		  query.setParameter(2, "123456");
+		  int row = query.executeUpdate(); 
+		  transaction.commit();
+		  if(row>0)
+		  {
+			  System.out.println("Successfully Insert Records");  
+		  }else {
+			  System.out.println("Records not Saved!");
+		  }
+
+*****************************Update the HQL Query********************************
+// Example HQL update query
+            String hqlUpdate = "UPDATE Admin a SET a.password = :newPassword WHERE a.id = :adminId";
+            Query query = em.createQuery(hqlUpdate);
+
+            // Set parameters
+            query.setParameter("newPassword", "newPassword123");
+            query.setParameter("adminId", 1L); // Replace with the actual admin ID
+
+            // Execute the update query
+            int updatedEntities = query.executeUpdate();
+            System.out.println("Number of updated entities: " + updatedEntities);
+
+
+// Example JPQL update query
+            String jpqlUpdate = "UPDATE Admin a SET a.password = :newPassword WHERE a.id = :adminId";
+            TypedQuery<Void> query = em.createQuery(jpqlUpdate, Void.class);
+            //String jpqlUpdate = "UPDATE Admin a SET a.password = :newPassword WHERE a.id = :adminId AND a.username = :username";
+            //String jpqlUpdate = "UPDATE Admin a SET a.password = :newPassword WHERE a.id = :adminId OR a.username = :username";
+            // Set parameters
+            query.setParameter("newPassword", "newPassword123");
+            query.setParameter("adminId", 1L); // Replace with the actual admin ID
+
+            // Execute the update query
+            query.executeUpdate();
+
+*****************Delete Query**************************
+// Example JPQL delete query using TypedQuery
+            String jpqlDelete = "DELETE FROM Admin a WHERE a.id = :adminId";
+            TypedQuery<Void> query = em.createQuery(jpqlDelete, Void.class);
+
+            // Set parameter
+            query.setParameter("adminId", 1L); // Replace with the actual admin ID
+
+            // Execute the delete query
+            query.executeUpdate();
+
+            transaction.commit();
+*********************************************************
+
+
+---------All Importance Query for EntityManager-----------
+
+java
+
+EntityManager entityManager = // obtain EntityManager instance
+YourEntityClass entity = new YourEntityClass(); // create a new entity
+entityManager.persist(entity); // persist the entity to the database
+
+Retrieving Entities by Primary Key:
+
+java
+
+EntityManager entityManager = // obtain EntityManager instance
+YourEntityClass entity = entityManager.find(YourEntityClass.class, primaryKey);
+
+Updating Entities:
+
+java
+
+EntityManager entityManager = // obtain EntityManager instance
+YourEntityClass entity = entityManager.find(YourEntityClass.class, primaryKey);
+entity.setSomeProperty(newValue);
+// Changes will be automatically persisted when the transaction commits.
+
+Removing Entities:
+
+java
+
+EntityManager entityManager = // obtain EntityManager instance
+YourEntityClass entity = entityManager.find(YourEntityClass.class, primaryKey);
+entityManager.remove(entity);
+
+Querying with JPQL:
+
+java
+
+EntityManager entityManager = // obtain EntityManager instance
+String jpqlQuery = "SELECT entity FROM YourEntityClass entity WHERE entity.property = :propertyValue";
+TypedQuery<YourEntityClass> query = entityManager.createQuery(jpqlQuery, YourEntityClass.class);
+query.setParameter("propertyValue", propertyValue);
+List<YourEntityClass> resultList = query.getResultList();
+
+Native SQL Queries:
+
+java
+
+EntityManager entityManager = // obtain EntityManager instance
+String sqlQuery = "SELECT * FROM your_entity_table WHERE property = :propertyValue";
+Query query = entityManager.createNativeQuery(sqlQuery, YourEntityClass.class);
+query.setParameter("propertyValue", propertyValue);
+List<YourEntityClass> resultList = query.getResultList();
+
+Flushing Changes to the Database:
+
+java
+
+EntityManager entityManager = // obtain EntityManager instance
+entityManager.flush(); // Flush changes to the database
+
+Managing Transactions:
+
+java
+
+EntityManager entityManager = // obtain EntityManager instance
+EntityTransaction transaction = entityManager.getTransaction();
+transaction.begin();
+
+// Perform operations...
+
+transaction.commit(); // Commit the transaction
+// or transaction.rollback() to rollback changes
+
+Detaching and Merging Entities:
+
+java
+
+EntityManager entityManager = // obtain EntityManager instance
+YourEntityClass detachedEntity = entityManager.detach(entity);
+// Make changes to detachedEntity
+YourEntityClass mergedEntity = entityManager.merge(detachedEntity);
+
+Refreshing Entities:
+
+java
+
+EntityManager entityManager = // obtain EntityManager instance
+entityManager.refresh(entity); // Refresh the state of the entity with data from 
+
+
+******************All Static Folder we save here********************
+In a Maven web application project created using the maven-archetype-webapp archetype, static resources such as images are commonly stored in the src/main/webapp directory. This is because the webapp directory is the default location for web resources in a standard Maven web project.
+
+Here's an example structure for a Maven web application:
+
+plaintext
+
+your-webapp/
+|-- src/
+|   `-- main/
+|       |-- java/
+|       |-- resources/
+|       `-- webapp/
+|           |-- WEB-INF/
+|           |-- images/
+|               |-- your-image.jpg
+|           |-- Css
+|               |-- index.css
+|           |-- JavaScript
+|               |-- index.js
+|-- target/
+|-- pom.xml
+
+***************Ancher tag <a> **********************
+ <h1>Welcome to My Web Application</h1>
+
+    <!-- Anchor tag linking to another page -->
+    <a href="anotherPage.jsp">Go to Another Page</a>
+
+    <!-- Anchor tag linking to an external URL -->
+    <a href="https://www.example.com" target="_blank">Visit Example Website</a>
+
+
+********************************SELECT Clause********************************
+String jpql = "SELECT e FROM Registration e WHERE e.stream = :stream AND e.gender = :gender";
+				//String jpql = "SELECT e FROM Registration e";
+				
+				EntityManagerFactory factory = Persistence.createEntityManagerFactory("dev");
+				EntityManager manager = factory.createEntityManager();
+				EntityTransaction transaction = manager.getTransaction();
+				transaction.begin();
+				
+				TypedQuery<Registration> query = manager.createQuery(jpql, Registration.class);
+				query.setParameter("stream", "Science");
+				query.setParameter("gender", "male");
+				List<Registration> resultList = query.getResultList();
+				
+				transaction.commit();
+
+
+************************************************************************************************

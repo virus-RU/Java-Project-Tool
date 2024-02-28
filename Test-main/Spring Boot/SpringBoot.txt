@@ -1,0 +1,38 @@
+*************Welcome to our Spring Boot Class************
+
+Stepts to Create Spring boot Application
+1. Go to Spring Initilizer web site
+2. Select Maven type project
+3. Select java language.
+4. Enter Project name.
+5. Add Importance dependency
+------Spring Data JPA
+------Thymeleaf
+------Spring Web
+------Spring Boot DevTools
+------H2 Database
+
+Steps to Import Spring boot Application in Eclipse
+1. Open Eclipse
+2. Setup Workplace for Spring boot application.
+3. import spring boot new project.
+
+
+Steps to run import spring boot web project
+1. In application.properties file 
+-----write code for mysql connection.
+2. create a html file in side the src/main/resources/templates
+3. Create a java file in side src/main/java
+-----Service Controller java class(for defualt web page show).
+
+
+****************Thank You**************
+
+
+if you want to save javascript file in spring boot project.
+then follow some steps:-
+1. inside the path, we are create a file javascript file or Folder
+   ------> src/main/resources/static
+
+
+

@@ -1,0 +1,55 @@
+<%@ page import="javax.persistence.EntityManagerFactory" %>
+<%@ page import="javax.persistence.EntityManager" %>
+<%@ page import="javax.persistence.Persistence" %>
+<%@ page import="com.yourpackage.User" %>
+<%@ page import="javax.persistence.EntityTransaction" %>
+
+<html>
+<head>
+    <title>User Registration</title>
+</head>
+<body>
+
+<h2>User Registration</h2>
+
+<form action="register.jsp" method="post">
+    Username: <input type="text" name="username" required><br>
+    Password: <input type="password" name="password" required><br>
+    <input type="submit" value="Register">
+</form>
+
+<% 
+    String username = request.getParameter("username");
+    String password = request.getParameter("password");
+
+    if (username != null && password != null) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("YourPersistenceUnitName");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+
+        try {
+            tx.begin();
+
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(password);
+
+            em.persist(user);
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+            emf.close();
+        }
+
+        out.println("<p>User registered successfully!</p>");
+    }
+%>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+Steps to Create a Maven-architype-web Project
+1. create a simple maven project
+ ---------maven-archetype-webapp(1.4)
+
+2. create a apche tomcat server for servlet.
+3. rught click of your project then select
+ ---------click build path
+      ----------click Configure build path
+	-------------click Libraries then Click JRE System
+            -------------click edit 
+		--------------select workspace default JRE
+                     ------------Click Finish Apply or apply and close.
+
+
+4. Add importment dependency in pom.xml for support web project with database(mysql).
+
+5. Create a META-INF folder inside the src/main/resources 
+     ---------Create a xml file for persistence and save file with persistence.xml name.
+      
+6. Create a jsp file inside the webapp folder such as (index.jsp)
+
+7. Make a welcome file then click and open web.xml from WEB_INF
+   write code of welcome file and save then index.jsp file.
+------------such as
+             <welcome-file-list>
+  		<welcome-file>indexjsp.jsp</welcome-file>  
+  	     </welcome-file-list> 
+
+
+8. finally start your server and run in localhost
